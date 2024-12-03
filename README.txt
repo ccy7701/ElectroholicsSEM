@@ -4,18 +4,18 @@ The "Electroholics" Computer Parts E-Store System contains eight (8) modules.
 Overall system frontend and backend integration was led by Chiew Cheng Yi.
 Work delegation by module is listed as follows.
 
-=======================================================================================
-MODULE                                      PERSON IN CHARGE
-=======================================================================================
-User Authentication Module                  Chiew Cheng Yi
-User Profile and Account Module             Danny Mickenzie Anak Reda
-Catalogue Module                            Christopher Wong Sen Li
-Shopping Cart Module                        Christopher Wong Sen Li
-Payment and Transaction Management Module   Carl Brandon Valentine
-Order History Module                        Chiew Cheng Yi
-Invoicing Module                            Carl Brandon Valentine
-Inventory Tracking Module                   Danny Mickenzie Anak Reda
-=======================================================================================
+===========================================
+MODULE
+===========================================
+User Authentication Module
+User Profile and Account Module
+Catalogue Module
+Shopping Cart Module
+Payment and Transaction Management Module
+Order History Module
+Invoicing Module
+Inventory Tracking Module
+===========================================
 
 #   (B): PRODUCT CATEGORIES IN THE CATALOGUE MODULE
 
@@ -33,8 +33,3 @@ Power Supplies (PSUs)               'psu'
 Cases and Cooling                   'cases' and 'cooling'
 Cables and Connectors               'cables'
 =======================================================================================
-
-#   (C): EXTERNAL RESOURCES USED
-
-Aside from the images used in this project which are sourced online, the FPDF Library
-(FPDF v1.86) was also used, applied in the Invoicing Module.
