@@ -4,7 +4,7 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" xml:lang="en">
 
 <html>
 
@@ -93,7 +93,7 @@
 
 <body>
 <nav class="topnav" id="myTopnav">
-        <a href="../index.php" class="tab"><img src="../images/websiteElements/siteElements/electroholicsLogo.png"><b> ELECTROHOLICS </b></a>
+        <a href="../index.php" class="tab"><img src="../images/websiteElements/siteElements/electroholicsLogo.png" alt="Electroholics Logo"><b> ELECTROHOLICS </b></a>
         <a href="../index.php" class="tab"><b>HOME</b></a>
         <a href="processors.php" class="tab"><b>PRODUCTS</b></a>
         <?php
@@ -121,28 +121,54 @@
             }
 
         ?>
-        <a href="javascript:void(0);" class="icon" onClick="adjustTopnav();"><i class="fa fa-bars"></i></a>
+        <button type="button" class="icon" onclick="adjustTopnav();">
+            <i class="fa fa-bars"></i>
+        </button>
     </nav>
 
     <main>
         <?php
-            if (isset($_GET["id"]) && $_GET["id"] != "") {
-                $id = $_GET["id"];
-                $fetchProductQuery = "SELECT * FROM catalog_item WHERE productIndex=$id";
-                $result = mysqli_query($conn, $fetchProductQuery);
-                $row = mysqli_fetch_assoc($result);
+        // Check if 'id' is set and not empty
+        if (isset($_GET["id"]) && $_GET["id"] != "") {
+            // Sanitize 'id' input
+            $id = $_GET["id"];
 
-                // fetch the data to populate the form
-                $productID = $row["productID"];
-                $productType = $row["productType"];
-                $productName = $row["productName"];
-                $productDescription = $row["productDescription"];
-                $productPrice = $row["productPrice"];
-                $productStock = $row["productStock"];
-                $productImagePath = $row["productImagePath"];
+            // Prepare the SQL query to prevent SQL injection
+            $stmt = mysqli_prepare($conn, "SELECT * FROM catalog_item WHERE productIndex = ?");
+            
+            if ($stmt) {
+                // Bind the parameter as an integer
+                mysqli_stmt_bind_param($stmt, "i", $id);
 
-                mysqli_close($conn);
+                // Execute the query
+                mysqli_stmt_execute($stmt);
+
+                // Fetch the result
+                $result = mysqli_stmt_get_result($stmt);
+
+                // Check if a row is returned
+                if ($row = mysqli_fetch_assoc($result)) {
+                    // Fetch the data to populate the form
+                    $productID = $row["productID"];
+                    $productType = $row["productType"];
+                    $productName = $row["productName"];
+                    $productDescription = $row["productDescription"];
+                    $productPrice = $row["productPrice"];
+                    $productStock = $row["productStock"];
+                    $productImagePath = $row["productImagePath"];
+                } else {
+                    echo "No product found.";
+                }
+
+                // Close the statement
+                mysqli_stmt_close($stmt);
+            } else {
+                echo "Failed to prepare statement.";
             }
+
+            // Close the database connection
+            mysqli_close($conn);
+        }
         ?>
         <br>
         <div class="editProduct-container">
@@ -199,7 +225,7 @@
                 <label for="productImageToUpload">Product Image</label><br><br>
 
                 <div style="text-align: center">
-                    <img id="output" src="<?=$productImagePath;?>" style="max-width: 256px; max-height: 256px; background-color: #FFFFFF; border: 2px solid #666666;"><br><br>
+                    <img id="output" src="<?=$productImagePath?>" alt="Product Image" style="max-width: 250px; max-height: 250px; background-color: #FFFFFF; border: 2px solid #666666;"><br><br>
                     <input class="button" name="buttonSubmit" type="submit" value="Edit Stock">
                     <input class="button" name="buttonCancel" type="button" onclick="history.back();" value="Cancel">
                 </div>
